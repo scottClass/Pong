@@ -1,4 +1,4 @@
-package com.pong;
+package com.pong.game;
 
 import com.badlogic.gdx.Game;
 
