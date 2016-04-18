@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pong.models;
+package com.pong.elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
-import static com.pong.models.Ball.HState.LEFT;
-import static com.pong.models.Ball.HState.RIGHT;
-import static com.pong.models.Ball.VState.DOWN;
-import static com.pong.models.Ball.VState.UP;
+import static com.pong.elements.Ball.HState.LEFT;
+import static com.pong.elements.Ball.HState.RIGHT;
+import static com.pong.elements.Ball.VState.DOWN;
+import static com.pong.elements.Ball.VState.UP;
 
 /**
  *

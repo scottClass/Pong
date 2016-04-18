@@ -9,12 +9,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.pong.models.Ball;
-import static com.pong.models.Ball.HState.LEFT;
-import static com.pong.models.Ball.HState.RIGHT;
-import static com.pong.models.Ball.VState.DOWN;
-import static com.pong.models.Ball.VState.UP;
-import com.pong.models.Paddle;
+import com.pong.elements.Ball;
+import static com.pong.elements.Ball.HState.LEFT;
+import static com.pong.elements.Ball.HState.RIGHT;
+import static com.pong.elements.Ball.VState.DOWN;
+import static com.pong.elements.Ball.VState.UP;
+import com.pong.elements.Paddle;
 
 /**
  *
@@ -31,6 +31,9 @@ public class MainGame implements Screen {
     boolean gameOver;
 
     public MainGame() {
+        ball = new Ball();
+        player1 = new Paddle(10, Gdx.graphics.getHeight() / 2);
+        player2 = new Paddle(Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() / 2);
         renderer = new WorldRenderer(ball, player1, player2);
         gameOver = false;
     }
@@ -41,17 +44,17 @@ public class MainGame implements Screen {
 
         if (!gameOver) {
             //player 1 movement
-            if (Gdx.input.isKeyPressed(Keys.A)) {
-                //move player 1 left
-            } else if (Gdx.input.isKeyPressed(Keys.D)) {
-                //move player 1 right
+            if (Gdx.input.isKeyPressed(Keys.W)) {
+                //move player 1 up
+            } else if (Gdx.input.isKeyPressed(Keys.S)) {
+                //move player 1 down
             }
 
             //player 2 movement
-            if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-                //move player 2 left
-            } else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-                //move player 2 right
+            if (Gdx.input.isKeyPressed(Keys.UP)) {
+                //move player 2 up
+            } else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+                //move player 2 down
             }
 
             if (ball.getHState() == LEFT) {
