@@ -12,30 +12,39 @@ import com.badlogic.gdx.math.Rectangle;
  * @author scott
  */
 public class Paddle {
-    
+
     private Rectangle rect;
-    
+
     public Paddle(float x, float y) {
-        rect = new Rectangle(x, y, 20, 150);
+        rect = new Rectangle(x, y, 20, 100);
     }
-    
+
     public Rectangle getRect() {
         return rect;
     }
-    
+
     public float getX() {
         return rect.x;
     }
-    
+
     public float getY() {
         return rect.y;
     }
-    
-    public float getWidth () {
+
+    public float getWidth() {
         return rect.width;
     }
-    
-    public float getHeight () {
+
+    public float getHeight() {
         return rect.height;
     }
+
+    public void moveUp(float y) {
+        rect.y += y;
+    }
+
+    public void moveDown(float y) {
+        rect.y -= y;
+    }
+    
 }

@@ -33,7 +33,7 @@ public class MainGame implements Screen {
     public MainGame() {
         ball = new Ball();
         player1 = new Paddle(10, Gdx.graphics.getHeight() / 2);
-        player2 = new Paddle(Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() / 2);
+        player2 = new Paddle(Gdx.graphics.getWidth() - 30, Gdx.graphics.getHeight() / 2);
         renderer = new WorldRenderer(ball, player1, player2);
         gameOver = false;
     }
@@ -46,15 +46,19 @@ public class MainGame implements Screen {
             //player 1 movement
             if (Gdx.input.isKeyPressed(Keys.W)) {
                 //move player 1 up
+                player1.moveUp(5);
             } else if (Gdx.input.isKeyPressed(Keys.S)) {
                 //move player 1 down
+                player1.moveDown(5);
             }
 
             //player 2 movement
             if (Gdx.input.isKeyPressed(Keys.UP)) {
                 //move player 2 up
+                player2.moveUp(5);
             } else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
                 //move player 2 down
+                player2.moveDown(5);
             }
 
             if (ball.getHState() == LEFT) {

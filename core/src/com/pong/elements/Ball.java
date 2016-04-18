@@ -31,7 +31,7 @@ public class Ball {
     }
     
     public Ball() {
-        rect = new Rectangle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 20, 20);
+        rect = new Rectangle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 10, 10);
     }
     
     public HState getHState () {
