@@ -32,6 +32,7 @@ public class Ball {
     
     public Ball() {
         rect = new Rectangle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 10, 10);
+        currentHState = LEFT;
     }
     
     public HState getHState () {
@@ -48,6 +49,10 @@ public class Ball {
         } else {
             currentHState = LEFT;
         }
+    }
+    
+    public void changeVState (VState state) {
+        currentVState = state;
     }
     
     public void changeVState () {
@@ -76,5 +81,21 @@ public class Ball {
     
     public float getHeight () {
         return rect.height;
+    }
+    
+    public void moveUp(float y) {
+        rect.y += y;
+    }
+
+    public void moveDown(float y) {
+        rect.y -= y;
+    }
+    
+    public void moveLeft(float x) {
+        rect.x -= x;
+    }
+
+    public void moveRight(float x) {
+        rect.x += x;
     }
 }
