@@ -51,6 +51,10 @@ public class Ball {
         }
     }
     
+    public void changeHState (HState state) {
+        currentHState = state;
+    }
+    
     public void changeVState (VState state) {
         currentVState = state;
     }

@@ -30,6 +30,10 @@ public class Paddle {
     public float getY() {
         return rect.y;
     }
+    
+    public void setY(float y) {
+        rect.y = y;
+    }
 
     public float getWidth() {
         return rect.width;

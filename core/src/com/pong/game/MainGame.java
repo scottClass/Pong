@@ -8,6 +8,7 @@ package com.pong.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Rectangle;
 import com.pong.elements.Ball;
 import static com.pong.elements.Ball.HState.LEFT;
 import static com.pong.elements.Ball.HState.RIGHT;
@@ -31,18 +32,25 @@ public class MainGame implements Screen {
     private int player2Score;
 
     boolean gameOver;
+    
+//    Rectangle left;
+//    Rectangle right;
+//    Rectangle up;
+//    Rectangle down;
+    Rectangle bounds;
 
     public MainGame() {
         ball = new Ball();
         player1 = new Paddle(10, Gdx.graphics.getHeight() / 2);
         player2 = new Paddle(Gdx.graphics.getWidth() - 30, Gdx.graphics.getHeight() / 2);
-        renderer = new WorldRenderer(ball, player1, player2);
         gameOver = false;
+        bounds  = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        renderer = new WorldRenderer(ball, player1, player2, player1Score, player2Score);
     }
 
     @Override
     public void render(float delta) {
-        renderer.render(delta);
+        renderer.render(delta, player1Score, player2Score);
 
         if (!gameOver) {
             paddleLogic();
@@ -88,13 +96,31 @@ public class MainGame implements Screen {
             //move player 2 down
             player2.moveDown(5);
         }
+        
+        if(player1.getY() + player1.getHeight() > Gdx.graphics.getHeight()) {
+            player1.setY(Gdx.graphics.getHeight() - player1.getHeight());
+        } else if (player1.getY() < 0) {
+            player1.setY(0);
+        }
+        
+        if(player2.getY() + player2.getHeight() > Gdx.graphics.getHeight()) {
+            player2.setY(Gdx.graphics.getHeight() - player2.getHeight());
+        } else if (player2.getY() < 0) {
+            player2.setY(0);
+        }
     }
 
     public void ballLogic() {
-        if(ball.getX() == Gdx.graphics.getHeight()) {
+        if(ball.getY() > 600) {
             ball.changeVState();
-        } else if (ball.getX() + ball.getHeight() == 0) {
+        } else if (ball.getY() < 0) {
             ball.changeVState();
+        }
+        
+        if(ball.getX() < 0) {
+            player2Score++;
+        } else if (ball.getX() > Gdx.graphics.getWidth()) {
+            player1Score++;
         }
         
         if (ball.getHState() == LEFT) {
