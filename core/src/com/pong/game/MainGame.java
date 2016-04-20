@@ -86,7 +86,13 @@ public class MainGame implements Screen {
             //if ball hits player 2
             ball.changeHState();
             //if the ball touches the upper half of the paddle
-            if (ball.getY() >= player2.getY() + (player2.getHeight() / 2)) {
+            if (Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.DOWN)) {
+                if (Gdx.input.isKeyPressed(Keys.UP)) {
+                    ball.changeVState(UP);
+                } else {
+                    ball.changeVState(DOWN);
+                }
+            } else if (ball.getY() >= player2.getY() + (player2.getHeight() / 2)) {
                 ball.changeVState(UP);
             } else {
                 ball.changeVState(DOWN);
