@@ -15,6 +15,8 @@ import static com.pong.elements.Ball.HState.RIGHT;
 import static com.pong.elements.Ball.VState.DOWN;
 import static com.pong.elements.Ball.VState.UP;
 import com.pong.elements.Paddle;
+import static com.pong.game.MainGame.state.PLAYER1SCORE;
+import static com.pong.game.MainGame.state.PLAYER2SCORE;
 
 /**
  *
@@ -30,52 +32,78 @@ public class MainGame implements Screen {
 
     private int player1Score;
     private int player2Score;
+    private long startTime;
+    private long secondsPassed;
+    private long next;
 
-    boolean gameOver;
-    
+    private state scoreState;
+
 //    Rectangle left;
 //    Rectangle right;
 //    Rectangle up;
 //    Rectangle down;
     Rectangle bounds;
 
+    public enum state {
+
+        PLAYER1SCORE, PLAYER2SCORE
+    }
+
     public MainGame() {
         ball = new Ball();
         player1 = new Paddle(10, Gdx.graphics.getHeight() / 2);
         player2 = new Paddle(Gdx.graphics.getWidth() - 30, Gdx.graphics.getHeight() / 2);
-        gameOver = false;
-        bounds  = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        bounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        startTime = System.currentTimeMillis();
+        scoreState = null;
         renderer = new WorldRenderer(ball, player1, player2, player1Score, player2Score);
     }
 
     @Override
     public void render(float delta) {
         renderer.render(delta, player1Score, player2Score);
+        secondsPassed = (System.currentTimeMillis() - startTime) / 1000;
 
-        if (!gameOver) {
-            paddleLogic();
-            ballLogic();
+        paddleLogic();
+        ballLogic();
 
-            if (ball.getRect().overlaps(player1.getRect())) {
-                //if ball hits player 1
-                ball.changeHState();
-                //if the ball touches the upper half of the paddle
-                if(ball.getY() >= player1.getY() + (player1.getHeight() / 2)) {
+        if (ball.getRect().overlaps(player1.getRect())) {
+            //if ball hits player 1
+            ball.changeHState();
+            //if the ball touches the upper half of the paddle
+            if (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.S)) {
+                if (Gdx.input.isKeyPressed(Keys.W)) {
                     ball.changeVState(UP);
                 } else {
                     ball.changeVState(DOWN);
                 }
-            } else if (ball.getRect().overlaps(player2.getRect())) {
-                //if ball hits player 2
-                ball.changeHState();
-                //if the ball touches the upper half of the paddle
-                if(ball.getY() >= player2.getY() + (player2.getHeight() / 2)) {
-                    ball.changeVState(UP);
-                } else {
-                    ball.changeVState(DOWN);
-                }
+            } else if (ball.getY() >= player1.getY() + (player1.getHeight() / 2)) {
+                ball.changeVState(UP);
+            } else {
+                ball.changeVState(DOWN);
+            }
+        } else if (ball.getRect().overlaps(player2.getRect())) {
+            //if ball hits player 2
+            ball.changeHState();
+            //if the ball touches the upper half of the paddle
+            if (ball.getY() >= player2.getY() + (player2.getHeight() / 2)) {
+                ball.changeVState(UP);
+            } else {
+                ball.changeVState(DOWN);
             }
         }
+        if (scoreState == PLAYER1SCORE) {
+            if (secondsPassed == next) {
+                ball.changeHState(RIGHT);
+                scoreState = null;
+            }
+        } else if (scoreState == PLAYER2SCORE) {
+            if (secondsPassed == next) {
+                ball.changeHState(LEFT);
+                scoreState = null;
+            }
+        }
+
     }
 
     public void paddleLogic() {
@@ -96,14 +124,14 @@ public class MainGame implements Screen {
             //move player 2 down
             player2.moveDown(5);
         }
-        
-        if(player1.getY() + player1.getHeight() > Gdx.graphics.getHeight()) {
+
+        if (player1.getY() + player1.getHeight() > Gdx.graphics.getHeight()) {
             player1.setY(Gdx.graphics.getHeight() - player1.getHeight());
         } else if (player1.getY() < 0) {
             player1.setY(0);
         }
-        
-        if(player2.getY() + player2.getHeight() > Gdx.graphics.getHeight()) {
+
+        if (player2.getY() + player2.getHeight() > Gdx.graphics.getHeight()) {
             player2.setY(Gdx.graphics.getHeight() - player2.getHeight());
         } else if (player2.getY() < 0) {
             player2.setY(0);
@@ -111,18 +139,24 @@ public class MainGame implements Screen {
     }
 
     public void ballLogic() {
-        if(ball.getY() > 600) {
+        if (ball.getY() > 600) {
             ball.changeVState();
         } else if (ball.getY() < 0) {
             ball.changeVState();
         }
-        
-        if(ball.getX() < 0) {
+
+        if (ball.getX() < 0) {
             player2Score++;
+            next = secondsPassed + 2;
+            ball.reset();
+            scoreState = PLAYER2SCORE;
         } else if (ball.getX() > Gdx.graphics.getWidth()) {
             player1Score++;
+            next = secondsPassed + 2;
+            ball.reset();
+            scoreState = PLAYER1SCORE;
         }
-        
+
         if (ball.getHState() == LEFT) {
             //if ball goes left
             ball.moveLeft(10);

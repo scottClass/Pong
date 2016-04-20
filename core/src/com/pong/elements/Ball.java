@@ -17,76 +17,85 @@ import static com.pong.elements.Ball.VState.UP;
  * @author scott
  */
 public class Ball {
-    
+
     private Rectangle rect;
     private HState currentHState;
     private VState currentVState;
-    
+
     public enum HState {
+
         LEFT, RIGHT
     }
-    
+
     public enum VState {
+
         UP, DOWN
     }
-    
+
     public Ball() {
         rect = new Rectangle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 10, 10);
         currentHState = LEFT;
     }
-    
-    public HState getHState () {
+
+    public HState getHState() {
         return currentHState;
     }
-    
-    public VState getVState () {
-       return currentVState; 
+
+    public VState getVState() {
+        return currentVState;
     }
-    
-    public void changeHState () {
-        if(currentHState == LEFT) {
+
+    public void changeHState() {
+        if (currentHState == LEFT) {
             currentHState = RIGHT;
         } else {
             currentHState = LEFT;
         }
     }
-    
-    public void changeHState (HState state) {
+
+    public void changeHState(HState state) {
         currentHState = state;
     }
-    
-    public void changeVState (VState state) {
+
+    public void changeVState(VState state) {
         currentVState = state;
     }
-    
-    public void changeVState () {
-        if(currentVState == UP) {
+
+    public void changeVState() {
+        if (currentVState == UP) {
             currentVState = DOWN;
         } else {
             currentVState = UP;
         }
     }
-    
+
+    public void reset() {
+        rect.x = Gdx.graphics.getWidth() / 2;
+        rect.y = Gdx.graphics.getHeight() / 2;
+        currentHState = null;
+        currentVState = null;
+    }
+
     public Rectangle getRect() {
         return rect;
     }
-    
+
     public float getX() {
         return rect.x;
     }
-    
+
     public float getY() {
         return rect.y;
     }
-    
-    public float getWidth () {
+
+    public float getWidth() {
         return rect.width;
     }
-    
-    public float getHeight () {
+
+    public float getHeight() {
         return rect.height;
     }
-    
+
     public void moveUp(float y) {
         rect.y += y;
     }
@@ -94,7 +103,7 @@ public class Ball {
     public void moveDown(float y) {
         rect.y -= y;
     }
-    
+
     public void moveLeft(float x) {
         rect.x -= x;
     }
